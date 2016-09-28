@@ -1,4 +1,4 @@
-#Brian Wong 9/28/16 Appfolio Interview 
+#Brian Wong 9/28/16 Appfolio Interview
 
 import os
 from pathlib import Path
@@ -10,14 +10,14 @@ def handle_commands():
 
     print("Usage: copy SOURCE DESTINATIONS..(followed by a space)")
     print("Type \"quit\" to exit")
-    
+
     while True:
         response = input().strip().split()
 
         if response[0].lower() == "quit":
            break;
 
-        if len(response) >= 2:
+        if len(response) > 2:
             source = Path(response[1])
             if response[0].lower() != "copy":
                 print(response[0] + " is not a valid command")
@@ -28,7 +28,7 @@ def handle_commands():
                 copy_to_des(source, response[2:])
         else:
             print("Not enough input")
-           
+
 
 
 def copy_to_des(source: Path, destinations: list):
@@ -36,7 +36,7 @@ def copy_to_des(source: Path, destinations: list):
     for destination in destinations:
         if os.path.isdir(destination):
             create_copy(source, destination)
-        elif os.access(os.path.dirname(destination), os.W_OK):  #if path does not exist, 
+        elif os.access(os.path.dirname(destination), os.W_OK):  #if path does not exist,
             try:                                                #but is valid, make the directory & create a copy
                 os.makedirs(destination)
                 create_copy(source, destination)
@@ -54,8 +54,8 @@ def create_copy(source: Path, destination: str):
         print(str(source).strip().split("/")[-1] + " already exist in " + str(destination))
     except:
         print("Permission Denied")
-        
-        
+
+
 
 
 if __name__ == '__main__':
