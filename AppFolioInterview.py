@@ -2,8 +2,6 @@
 
 import os
 from pathlib import Path
-from shutil import copy
-from shutil import SameFileError
 
 def handle_commands():
     """Responds to inputs, execute proper commands."""
@@ -48,10 +46,20 @@ def copy_to_des(source: Path, destinations: list):
 def create_copy(source: Path, destination: str):
     """Creates copy to destination, handles errors"""
     try:
-        copy(str(source), str(destination))
+        des = destination + "/" + str(source).strip().split("/")[-1]
+        if os.path.isfile(des):
+           raise ValueError 
+        with open(str(source),'rb') as sfile:
+            source_content = sfile.read()
+            with open(des,'wb') as dfile:
+                dfile.write(source_content)
+                sfile.close()
+                dfile.close()
+    
         print(str(source).strip().split("/")[-1] + " successfully copied to " + str(destination))
-    except SameFileError:
-        print(str(source).strip().split("/")[-1] + " already exist in " + str(destination))
+
+    except ValueError:
+           print(str(source).strip().split("/")[-1] + " already exist in " + str(destination))
     except:
         print("Permission Denied")
 
